@@ -1,5 +1,5 @@
 part uuid ${devtype} ${devnum}:${distro_bootpart} uuid
-setenv bootargs console=${console} console=tty0 root=PARTUUID=${uuid} rw rootwait
+setenv bootargs console=${console} console=tty0 root=PARTUUID=${uuid} rw rootwait bootsplash.bootfile=bootsplash-themes/manjaro/bootsplash
 setenv kernel_addr_z 0x44080000
 setenv fdtfile allwinner/sun50i-a64-pinetab.dtb
 

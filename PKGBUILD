@@ -2,7 +2,7 @@
 # Maintainer: Dan Johansen <strit@manjaro.org>
 
 pkgname=uboot-pinetab
-pkgver=2019.07
+pkgver=2019.10
 pkgrel=1
 pkgdesc="U-Boot for PineTab"
 arch=('aarch64')
@@ -16,10 +16,10 @@ source=("https://github.com/u-boot/u-boot/archive/v${pkgver}.tar.gz"
 	'0001-ATF-set-fno-stack-protector.patch'
         'boot.txt'
         'mkscr')
-md5sums=('0af8c8867b9557d53fe0e2da01fb4b65'
+md5sums=('f24798ca51100114d86171c05f450cdc'
          'SKIP'
          '3213c96ce0713249719dc73d58395620'
-         '869b2c35ef24b130114d8bba50d89e8f'
+         '6a12745e3c1e41975ae7ab09a9c77b61'
          '021623a04afd29ac3f368977140cfbfd')
 
 #pkgver() {
@@ -29,7 +29,7 @@ md5sums=('0af8c8867b9557d53fe0e2da01fb4b65'
 
 prepare() {
   cd u-boot-${pkgver}
-
+  
   cd ../arm-trusted-firmware
   git apply ../0001-ATF-set-fno-stack-protector.patch
 }
