@@ -2,8 +2,9 @@
 # Maintainer: Dan Johansen <strit@manjaro.org>
 
 pkgname=uboot-pinetab
-pkgver=2020.01
-pkgrel=2
+pkgver=2020.04
+pkgrel=1
+_tfaver=2.3
 pkgdesc="U-Boot for PineTab"
 arch=('aarch64')
 url='http://www.denx.de/wiki/U-Boot/WebHome'
@@ -11,33 +12,22 @@ license=('GPL')
 makedepends=('bc' 'git' 'python' 'swig' 'dtc')
 backup=('boot/extlinux/extlinux.conf')
 install=${pkgname}.install
-_ATFcommit=63b9b5425f15
-source=("https://github.com/u-boot/u-boot/archive/v${pkgver}.tar.gz"
-        "git+https://github.com/ARM-software/arm-trusted-firmware.git#commit=${_ATFcommit}"
-        '0001-ATF-set-fno-stack-protector.patch'
+source=("ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver/rc/-rc}.tar.bz2"
+        "https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/snapshot/trusted-firmware-a-$_tfaver.tar.gz"
         'extlinux.conf')
-md5sums=('575ee541f59985f8869b7b3137ed597c'
-         'SKIP'
-         '3213c96ce0713249719dc73d58395620'
+md5sums=('51113d2288c55110e33a895c65ab9f60'
+         '628a32a3c3b3f0c567d1ea6ee5582807'
          '8bf6e72352f58d0b7cbb5b5c15ae0a0a')
-
-
-prepare() {
-  cd u-boot-${pkgver}
-  
-  cd ../arm-trusted-firmware
-  git apply ../0001-ATF-set-fno-stack-protector.patch
-}
 
 build() {
   unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 
-  cd arm-trusted-firmware
+  cd trusted-firmware-a-$_tfaver
 
   make PLAT=sun50i_a64 DEBUG=1 bl31
-  cp build/sun50i_a64/debug/bl31.bin ../u-boot-${pkgver}
+  cp build/sun50i_a64/debug/bl31.bin ../u-boot-${pkgver/rc/-rc}
 
-  cd ../u-boot-${pkgver}
+  cd ../u-boot-${pkgver/rc/-rc}
 
   make distclean
   #make sopine_baseboard_defconfig
@@ -48,7 +38,7 @@ build() {
 }
 
 package() {
-  cd u-boot-${pkgver}
+  cd u-boot-${pkgver/rc/-rc}
 
   mkdir -p "${pkgdir}"/boot/extlinux
 
