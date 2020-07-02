@@ -2,7 +2,7 @@
 # Maintainer: Furkan K. <furkan@fkardame.com>
 # TODO: Find a way to build crust inside this PKGBUILD, right now it is prebuilt.
 
-pkgname=uboot-pinetab-crust
+pkgname=uboot-pinetab
 pkgver=2020.04
 pkgrel=2
 pkgdesc="U-Boot for Pine64 PineTab - CRUST EDITION"
