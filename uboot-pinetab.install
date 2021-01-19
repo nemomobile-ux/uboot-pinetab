@@ -6,11 +6,35 @@ flash_uboot() {
 ## arg 1:  the new package version
 post_install() {
   flash_uboot
-  sed -i s/"LABEL=ROOT"/"LABEL=ROOT_MNJRO"/g /boot/extlinux/extlinux.conf
+  if [ -f /boot/extlinux/extlinux.conf.pacsave ]; then
+  mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
+  fi
+  if [ -f /boot/extlinux/extlinux.conf ]; then
+  echo "Keeping old extlinux.conf file..."
+  else
+  mkdir -p /boot/extlinux/
+  echo "LABEL Manjaro ARM
+KERNEL /Image
+FDT /dtbs/allwinner/sun50i-a64-pinetab-early-adopter.dtb
+APPEND initrd=/initramfs-linux.img console=tty1 console=ttyS0,115200 root=LABEL=ROOT_MNJRO rw rootwait bootsplash.bootfile=bootsplash-themes/manjaro/bootsplash" > /boot/extlinux/extlinux.conf
+  fi
+
 }
 
 ## arg 1:  the new package version
 ## arg 2:  the old package version
 post_upgrade() {
   flash_uboot
+  if [ -f /boot/extlinux/extlinux.conf.pacsave ]; then
+  mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
+  fi
+  if [ -f /boot/extlinux/extlinux.conf ]; then
+  echo "Keeping old extlinux.conf file..."
+  else
+  mkdir -p /boot/extlinux/
+  echo "LABEL Manjaro ARM
+KERNEL /Image
+FDT /dtbs/allwinner/sun50i-a64-pinetab-early-adopter.dtb
+APPEND initrd=/initramfs-linux.img console=tty1 console=ttyS0,115200 root=LABEL=ROOT_MNJRO rw rootwait bootsplash.bootfile=bootsplash-themes/manjaro/bootsplash" > /boot/extlinux/extlinux.conf
+  fi
 }
