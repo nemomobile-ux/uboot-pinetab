@@ -1,6 +1,6 @@
 flash_uboot() {
   echo "Install new bootloader by running:"
-  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinetab.bin of=/dev/mmcblkX bs=8k seek=1 for PineTab SD/eMMC"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinetab.bin of=/dev/mmcblkX bs=128k seek=1 for PineTab SD/eMMC"
 }
 
 ## arg 1:  the new package version
