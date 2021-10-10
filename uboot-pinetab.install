@@ -1,40 +1,37 @@
-flash_uboot() {
-  echo "Install new bootloader by running:"
-  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinetab.bin of=/dev/mmcblkX bs=128k seek=1 for PineTab SD/eMMC"
+notice_uboot() {
+  echo "New version of U-Boot firmware can be flashed to your microSD card (mmcblk1)"
+  echo "or eMMC module (mmcblk2).  You can do that by running:"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinetab.bin of=/dev/mmcblkX bs=128k seek=1"
 }
 
-## arg 1:  the new package version
+create_config() {
+  mkdir -p /boot/extlinux
+  echo "LABEL Manjaro ARM
+KERNEL /Image
+FDT /dtbs/allwinner/sun50i-a64-pinetab-early-adopter.dtb
+APPEND initrd=/initramfs-linux.img console=ttyS0,115200 root=LABEL=ROOT_MNJRO rw rootwait quiet splash plymouth.ignore-serial-consoles" > /boot/extlinux/extlinux.conf
+}
+
 post_install() {
-  flash_uboot
+  notice_uboot
   if [ -f /boot/extlinux/extlinux.conf.pacsave ]; then
-  mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
+    mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
   fi
   if [ -f /boot/extlinux/extlinux.conf ]; then
-  echo "Keeping old extlinux.conf file..."
+    echo "Keeping old extlinux.conf file..."
   else
-  mkdir -p /boot/extlinux/
-  echo "LABEL Manjaro ARM
-KERNEL /Image
-FDT /dtbs/allwinner/sun50i-a64-pinetab-early-adopter.dtb
-APPEND initrd=/initramfs-linux.img console=tty1 console=ttyS0,115200 root=LABEL=ROOT_MNJRO rw rootwait quiet splash plymouth.ignore-serial-consoles" > /boot/extlinux/extlinux.conf
+    create_config
   fi
-
 }
 
-## arg 1:  the new package version
-## arg 2:  the old package version
 post_upgrade() {
-  flash_uboot
+  notice_uboot
   if [ -f /boot/extlinux/extlinux.conf.pacsave ]; then
-  mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
+    mv /boot/extlinux/extlinux.conf.pacsave /boot/extlinux/extlinux.conf
   fi
   if [ -f /boot/extlinux/extlinux.conf ]; then
-  echo "Keeping old extlinux.conf file..."
+    echo "Keeping old extlinux.conf file..."
   else
-  mkdir -p /boot/extlinux/
-  echo "LABEL Manjaro ARM
-KERNEL /Image
-FDT /dtbs/allwinner/sun50i-a64-pinetab-early-adopter.dtb
-APPEND initrd=/initramfs-linux.img console=tty1 console=ttyS0,115200 root=LABEL=ROOT_MNJRO rw rootwait quiet splash plymouth.ignore-serial-consoles" > /boot/extlinux/extlinux.conf
+    create_config
   fi
 }

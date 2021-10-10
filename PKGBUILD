@@ -2,7 +2,7 @@
 # Maintainer: Dan Johansen <strit@manjaro.org>
 
 pkgname=uboot-pinetab
-pkgver=2021.07
+pkgver=2021.10
 pkgrel=1
 pkgdesc="U-Boot for Pine64 PineTab"
 arch=('aarch64')
@@ -15,7 +15,7 @@ install=${pkgname}.install
 _tfaver=2.5
 source=("ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver/rc/-rc}.tar.bz2"
         "https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/snapshot/trusted-firmware-a-$_tfaver.tar.gz")
-md5sums=('7afbe0ef070dc0e8e970c57a08e3f336'
+md5sums=('f1392080facf59dd2c34096a5fd95d4c'
          'cd0455f0dcd4161201074bacb93446b1')
 
 build() {
